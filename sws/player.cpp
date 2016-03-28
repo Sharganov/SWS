@@ -12,7 +12,7 @@ void playTone(float freqHz, int durationMs)
     const int sampleRate = 44100;
     const int sampleSize = 8;
     const int valuesPerSecond = sampleRate*sampleSize/8;//count amount of values for 100 ms
-    const int timeInterval = 100; //time to seek buffer in ms
+    const int timeInterval = 70; //time to seek buffer in ms
 
     QTimer timer;
     timer.setSingleShot(true);
@@ -20,7 +20,7 @@ void playTone(float freqHz, int durationMs)
 
     //QByteArray audio_data = generateSineWave(0, frequency, valuesPerSecond/10);
     //QByteArray audio_data2 = generateSineWave2(0, frequency, valuesPerSecond/10);
-    QByteArray audio_data3 = newOneALgorithm(freqHz, valuesPerSecond);
+    QByteArray audio_data3 = newOneALgorithm(freqHz, valuesPerSecond/10);
     QBuffer audio_buffer(&audio_data3);
     audio_buffer.open(QIODevice::ReadOnly);
 

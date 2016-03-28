@@ -6,18 +6,12 @@
 #include <math.h>
 #include <QFile>
 
-QByteArray newOneALgorithm(int frequency, int sampleRate)
+QByteArray newOneALgorithm(int frequency, int sampleRate)// MCF algorithm
 {
     QByteArray byteArray;
     QBuffer buffer(&byteArray);
-    QFile x("/home/artem/1.dat");
-    qDebug()<<x.exists();
-
-    x.open(QIODevice::WriteOnly);
-    qDebug()<<x.isOpen();
-    x.open(QIODevice::WriteOnly);
-    x.write("aaa");
-    QDataStream out(&x);
+    buffer.open(QIODevice::WriteOnly);
+    QDataStream out(&buffer);
 
     int w = frequency*M_PI/sampleRate;
     float f = (180 - w)/2;
@@ -28,11 +22,9 @@ QByteArray newOneALgorithm(int frequency, int sampleRate)
     {
 
         x0 = x0 - e*y0;
- out << (static_cast<char> (x0*127));
+        out << (static_cast<int> (x0*127));
         y0 = e*x0 + y0;
     }
-    x.close();
-    qDebug()<<"SDFDS";
     return buffer.data();
 }
 
@@ -54,7 +46,6 @@ QByteArray generateSineWave2(int ip, int frequency, int sampleRate)
         float y0 = b1*y1 - y2;
         y2 = y1;
         y1 = y0;
-        qDebug()<<(static_cast<short> (y0*32767));
         out << (static_cast<short> (y0*32767));
     }
     buffer.close();
