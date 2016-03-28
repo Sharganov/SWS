@@ -1,1 +1,1 @@
-# SWS
+# Sine wave synthesizer
