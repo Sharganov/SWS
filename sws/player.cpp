@@ -1,7 +1,6 @@
 #include "player.h"
 #include "generator.h"
 #include <QAudioOutput>
-#include <QByteArray>
 #include <QBuffer>
 #include <QDebug>
 #include <QEventLoop>
@@ -9,29 +8,24 @@
 
 void playTone(float freqHz, int durationMs)
 {
-    const int sampleRate = 44100;
-    const int sampleSize = 8;
-    const int valuesPerSecond = sampleRate*sampleSize/8;//count amount of values for 100 ms
+    const int sampleRate = 8000;
+    const int sampleSize = 16;
     const int timeInterval = 70; //time to seek buffer in ms
 
     QTimer timer;
     timer.setSingleShot(true);
     timer.setInterval(durationMs);
 
-    //QByteArray audio_data = generateSineWave(0, frequency, valuesPerSecond/10);
-    //QByteArray audio_data2 = generateSineWave2(0, frequency, valuesPerSecond/10);
-    QByteArray audio_data3 = newOneALgorithm(freqHz, valuesPerSecond/10);
-    QBuffer audio_buffer(&audio_data3);
+    QByteArray audio_data = generateSineWave(0, freqHz, sampleRate, sampleSize);
+    QBuffer audio_buffer(&audio_data);
     audio_buffer.open(QIODevice::ReadOnly);
-
-
 
     QAudioFormat format;
     format.setSampleSize(sampleSize);
     format.setSampleRate(sampleRate);
     format.setChannelCount(1);
     format.setCodec("audio/pcm");
-    format.setByteOrder(QAudioFormat::LittleEndian);
+    format.setByteOrder(QAudioFormat::BigEndian);
     format.setSampleType(QAudioFormat::SignedInt);
 
     QAudioDeviceInfo info(QAudioDeviceInfo::defaultOutputDevice());

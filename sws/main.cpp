@@ -1,6 +1,5 @@
 #include <QCoreApplication>
-#include <player.h>
-
+#include "player.h"
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
